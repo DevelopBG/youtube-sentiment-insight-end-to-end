@@ -59,5 +59,24 @@ project/
     pipenv install mlflow
     pipenv install awscli
     pipenv install boto3
+    pipenv shell
+
+
+    # Then set aws configuration
+    aws configure
+
+    mlflow server -h 0.0.0.0 --default-artifact-root s3://{bucket name}
+    mlflow server \
+  --host 0.0.0.0 \
+  --port 5000 \
+  --backend-store-uri sqlite:///mlflow.db \
+  --default-artifact-root s3://{bucket name} \
+  --allowed-hosts {public ipv4}:5000 \
+  --crss-allowed-origins '*'
+
+    "Browser - http:{public ipv4}:5000"
+
+    export MLFLOW_TRACKING_URI={ec2 uri}
+
     ```
     
