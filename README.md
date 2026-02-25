@@ -1,1 +1,62 @@
 # youtube-sentiment-insight-end-to-end
+
+
+Pipeline -- 
+    1. Data Collection
+    2. Data Pre-processing and EDA
+    3. Building Baseline Models
+    4. Setup Mlflow server on AWS
+    5. Improve the baseline models
+        |-- BOW< TFIDF
+        |-- Max Feature
+        |-- Handeling imbalance data
+        |-- Hyperparameter tuning with multiple model
+        |-- Stacking models
+    6. Build ML pipeline with DVC
+    7. Add model to the model registry
+    8. Implement chrome pulgin
+    9. CICD workflow
+    10. Containarization
+    11. Github for code repo
+
+
+project/
+│
+├── data/
+│   ├── raw/                  # Original, unprocessed data
+│   └── processed/            # Cleaned and transformed data
+│
+├── notebooks/                # Exploratory and experimental notebooks
+├── src/
+│   ├── data_preprocessing.py # Data cleaning and feature engineering
+│   ├── model.py              # Model definition and architecture
+│   ├── train.py              # Training pipeline
+│   └── evaluate.py           # Evaluation and metrics
+│
+├── models/                   # Saved model checkpoints
+├── results/                  # Outputs, plots, and reports
+├── requirements.txt          # Python dependencies
+└── README.md    
+
+
+
+## AWS setup steps for MLFlow server setup
+
+    1. Login to AWS console.
+    2. Create an IAM user if hasn't been created already
+    3. Create an S3 bucket.
+    4. Create EC2 machine(Ubuntu) & enable 5000 port
+
+    # Command on EC2 machine to setup MLFlow server
+    ```
+    sudo apt update
+    sudo apt install python3-pip 
+    sudo apt install pipenv
+    sudo apt install virtualenv
+    mkdir mlflow
+    cd mlflow
+    pipenv install mlflow
+    pipenv install awscli
+    pipenv install boto3
+
+    
