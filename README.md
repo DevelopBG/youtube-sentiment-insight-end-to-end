@@ -1,7 +1,7 @@
 # youtube-sentiment-insight-end-to-end
 
 
-Pipeline -- 
+```Pipeline -- 
     1. Data Collection
     2. Data Pre-processing and EDA
     3. Building Baseline Models
@@ -18,8 +18,9 @@ Pipeline --
     9. CICD workflow
     10. Containarization
     11. Github for code repo
+```
 
-
+```
 project/
 │
 ├── data/
@@ -37,7 +38,7 @@ project/
 ├── results/                  # Outputs, plots, and reports
 ├── requirements.txt          # Python dependencies
 └── README.md    
-
+```
 
 
 ## AWS setup steps for MLFlow server setup
@@ -58,5 +59,5 @@ project/
     pipenv install mlflow
     pipenv install awscli
     pipenv install boto3
-
+    ```
     
