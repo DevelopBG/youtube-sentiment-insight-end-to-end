@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-
+.uenv/*
+.dvc/*
+data/*
 # Distribution / packaging
 .Python
 build/
