@@ -1,0 +1,5 @@
+{
+    "run_id": "034a3b54e0e840a784de25f4677dd85a",
+    "model_path": "s3://mlflow-bucket-sentiment/9/034a3b54e0e840a784de25f4677dd85a/artifacts/lgbm_model",
+    "artifact_name": "lgbm_model"
+}

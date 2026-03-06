@@ -1,0 +1,5 @@
+[cache]
+    type = copy
+    dir = .dvc/cache
+[core]
+    autostage = true
