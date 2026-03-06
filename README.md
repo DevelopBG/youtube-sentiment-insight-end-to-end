@@ -40,6 +40,7 @@ project/
 └── README.md    
 ```
 
+#### DEPLOYMENT -------------------------->
 
 ## AWS setup steps for MLFlow server setup
 
@@ -65,6 +66,7 @@ project/
     # Then set aws configuration
     aws configure
 
+    "
     mlflow server -h 0.0.0.0 --default-artifact-root s3://{bucket name}
     mlflow server \
   --host 0.0.0.0 \
@@ -73,6 +75,7 @@ project/
   --default-artifact-root s3://{bucket name} \
   --allowed-hosts {public ipv4}:5000 \
   --crss-allowed-origins '*'
+  "
 
     "Browser - http:{public ipv4}:5000"
 
@@ -80,3 +83,48 @@ project/
 
     ```
     
+
+# Steps for deployment---
+    ```
+    EC2 access: It is virtual machine
+    ERC: Elastic Container Registry to save our docker image
+    1. Login to AWS Console
+    2. Create IAM user 
+    3. Build docker image of the source code. 
+    4. Push the image to ECR
+    5. Launch EC2 
+    6. Pull image form ECR to EC2
+    7. Launch docker image in EC2
+
+    # Policies to attach
+    1. AmazoneEC2ContainerRegistryFullAccess
+    2. AmazonEC2FullAccess
+    ``` 
+## Commands on EC2 
+    ```
+    1. sudo apt-get update -y
+    2. sudo apt-get upgrade
+    3. curl -fsSL https://get.docker.com -o get-docker.sh
+    4. sudo sh get-docker.sh
+    5. sudo usermod -aG docker ubuntu
+    6. newgrp docker
+    ```
+## Configure EC2 as self-hosted runner:
+    ```
+    1. github repo setting -> actions -> new self hosted runner -> run the commands on EC2 
+    2. run those commands until "./run.sh"
+    3. On EC2 machine,-
+        runner group : Enter (default)
+        name of runner: self-hosted 
+        then "Enter"
+        "Enter"
+    4. "./run.sh"
+    ```
+
+## Setup github secretes:
+    # secrete and variable -> action -> new repository secrete
+        1. AWS_ACCESS_KEY_ID = 
+        2. AWS_SECRET_ACCESS_KEY = 
+        3. AWS_REGION = 
+        4. AWS_ECR_LOGIN_URI = 
+        5. ECR_REPOSITORY_NAME = 
