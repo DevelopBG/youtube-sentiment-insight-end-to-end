@@ -118,6 +118,7 @@ project/
         name of runner: self-hosted 
         then "Enter"
         "Enter"
+        
     4. "./run.sh"
     ```
 
