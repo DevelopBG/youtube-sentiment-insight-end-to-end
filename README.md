@@ -34,6 +34,9 @@ project/
 │   ├── train.py              # Training pipeline
 │   └── evaluate.py           # Evaluation and metrics
 │
+├── flusk_api/
+|   ├── main.py
+|
 ├── models/                   # Saved model checkpoints
 ├── results/                  # Outputs, plots, and reports
 ├── requirements.txt          # Python dependencies
@@ -118,7 +121,7 @@ project/
         name of runner: self-hosted 
         then "Enter"
         "Enter"
-        
+
     4. "./run.sh"
     ```
 
