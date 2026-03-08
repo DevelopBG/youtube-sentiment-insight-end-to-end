@@ -6,7 +6,8 @@ import logging
 import os
 
 # Set up MLflow tracking URI
-mlflow.set_tracking_uri("http://16.176.4.188:5000/")
+# mlflow.set_tracking_uri("http://16.176.4.188:5000/")
+mlflow.set_tracking_uri("http://localhost:5000/")
 
 
 # logging configuration
