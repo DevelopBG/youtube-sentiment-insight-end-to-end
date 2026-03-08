@@ -55,7 +55,7 @@ def preprocess_comment(comment):
 #Load the model and vectorizer from the model registry and local storage
 def load_model_and_vectorizer(model_name, model_version, vectorizer_path):
     # Set MLflow tracking URI to your server
-    mlflow.set_tracking_uri("http://15.135.159.216:5000/")  # Replace with your MLflow tracking URI
+    mlflow.set_tracking_uri("http://16.176.4.188:5000/")  # Replace with your MLflow tracking URI
     client = MlflowClient()
     model_uri = f"models:/{model_name}/{model_version}"
     # model_uri = "s3://mlflow-bucket-sentiment/9/b9c7ff2d9db940aa8ad42c14074a8ceb/artifacts/lgbm_model" ## direct link of the s3 bucket
