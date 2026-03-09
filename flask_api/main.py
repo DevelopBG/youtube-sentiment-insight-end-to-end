@@ -1,7 +1,7 @@
 import matplotlib
 matplotlib.use('Agg')  # Use non-interactive backend before importing pyplot
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_cors import CORS
 import io
 import matplotlib.pyplot as plt
@@ -22,6 +22,14 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# Keep existing home route or rename it
+@app.route('/api')
+def api_home():
+    return "Welcome to our flask api"
 
 def preprocess_comment(comment):
     """Apply preprocessing transformations to a comment."""

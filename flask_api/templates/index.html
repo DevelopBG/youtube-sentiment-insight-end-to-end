@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Sentiment Analysis API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-predict {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-clear {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-clear:hover {
+            background: #e0e0e0;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            background: white;
+        }
+        
+        .comment-text {
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .sentiment {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .sentiment.positive {
+            color: #10b981;
+        }
+        
+        .sentiment.neutral {
+            color: #6b7280;
+        }
+        
+        .sentiment.negative {
+            color: #ef4444;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            color: #4338ca;
+            margin-bottom: 20px;
+        }
+        
+        .endpoints {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .endpoints h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .endpoint-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .method {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 YouTube Sentiment Analysis</h1>
+        <p class="subtitle">Analyze sentiment of YouTube comments using AI</p>
+        
+        <div class="info">
+            💡 Enter one or more comments (one per line) to analyze their sentiment
+        </div>
+        
+        <div class="section">
+            <label for="comments">Enter Comments:</label>
+            <textarea 
+                id="comments" 
+                placeholder="Example:&#10;This video is amazing!&#10;I don't like this content&#10;Pretty good explanation"
+            ></textarea>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-predict" onclick="predictSentiment()">
+                🔮 Analyze Sentiment
+            </button>
+            <button class="btn-clear" onclick="clearAll()">
+                🗑️ Clear
+            </button>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing comments...</p>
+        </div>
+        
+        <div class="results" id="results"></div>
+        
+        <div class="endpoints">
+            <h3>📡 Available API Endpoints</h3>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /predict
+            </div>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /predict_with_timestamps
+            </div>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /fetch_comments
+            </div>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /generate_chart
+            </div>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /generate_wordcloud
+            </div>
+            <div class="endpoint-item">
+                <span class="method">POST</span> /generate_trend_graph
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function predictSentiment() {
+            const textarea = document.getElementById('comments');
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                alert('Please enter at least one comment!');
+                return;
+            }
+            
+            // Split by newlines and filter empty lines
+            const comments = text.split('\n').filter(c => c.trim() !== '');
+            
+            // Show loading
+            loading.classList.add('show');
+            results.classList.remove('show');
+            results.innerHTML = '';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ comments: comments })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Prediction failed');
+                }
+                
+                const data = await response.json();
+                
+                // Hide loading
+                loading.classList.remove('show');
+                
+                // Display results
+                displayResults(data);
+                
+            } catch (error) {
+                loading.classList.remove('show');
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        function displayResults(data) {
+            const results = document.getElementById('results');
+            
+            const sentimentMap = {
+                '1': { label: 'Positive', class: 'positive', emoji: '😊' },
+                '0': { label: 'Neutral', class: 'neutral', emoji: '😐' },
+                '-1': { label: 'Negative', class: 'negative', emoji: '😞' }
+            };
+            
+            let html = '<h3 style="margin-bottom: 20px; color: #667eea;">📊 Analysis Results</h3>';
+            
+            data.forEach((item, index) => {
+                const sentiment = sentimentMap[item.sentiment.toString()] || sentimentMap['0'];
+                
+                html += `
+                    <div class="result-item">
+                        <div class="comment-text">
+                            <strong>#${index + 1}:</strong> "${item.comment}"
+                        </div>
+                        <div class="sentiment ${sentiment.class}">
+                            ${sentiment.emoji} Sentiment: ${sentiment.label}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            results.innerHTML = html;
+            results.classList.add('show');
+        }
+        
+        function clearAll() {
+            document.getElementById('comments').value = '';
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('results').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
