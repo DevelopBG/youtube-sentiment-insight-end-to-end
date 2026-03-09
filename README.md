@@ -4,9 +4,9 @@
 
 A complete end-to-end machine learning project 
 
-    1.Webapplication: analyzes sentiment.
+ 1.Webapplication: analyzes sentiment.
 
-    2. A chorome extension to check how the video is on the basis of the comments given. It validate all the comments and provides the stat of them . 
+ 2. A chorome extension to check how the video is on the basis of the comments given. It validate all the comments and provides the stat of them . 
 
 Features automated CI/CD deployment to AWS.
 
@@ -559,24 +559,7 @@ HTTP Status Codes:
 - `405`: Method Not Allowed (wrong HTTP method)
 - `500`: Internal Server Error
 
----
 
-## 📸 Screenshots
-
-### Chrome Extension
-![Chrome Extension](https://via.placeholder.com/800x400.png?text=Chrome+Extension+Screenshot)
-
-### Web Interface
-![Web Interface](https://via.placeholder.com/800x400.png?text=Web+Interface+Screenshot)
-
-### Sentiment Distribution
-![Pie Chart](https://via.placeholder.com/400x400.png?text=Sentiment+Pie+Chart)
-
-### Word Cloud
-![Word Cloud](https://via.placeholder.com/800x400.png?text=Word+Cloud)
-
-### Sentiment Trends
-![Trend Graph](https://via.placeholder.com/800x400.png?text=Sentiment+Trend+Graph)
 
 ---
 
@@ -602,7 +585,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Banibrata Ghosh**
 - Email: banibrataghosh916@gmail.com
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: BGDevelop
 
 ---
 
