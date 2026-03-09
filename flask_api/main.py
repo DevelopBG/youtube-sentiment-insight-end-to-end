@@ -15,6 +15,8 @@ from nltk.stem import WordNetLemmatizer
 from mlflow.tracking import MlflowClient
 import matplotlib.dates as mdates
 import pickle
+import requests
+import os
 
 
 app = Flask(__name__)
@@ -96,7 +98,54 @@ def home():
     return "Welcome to our flask api"
 
 
-
+@app.route('/fetch_comments', methods=['POST'])
+def fetch_comments():
+    """Fetch YouTube comments server-side"""
+    try:
+        data = request.json
+        video_id = data.get('video_id')
+        
+        if not video_id:
+            return jsonify({"error": "No video ID provided"}), 400
+        
+        # YouTube API key stored as environment variable
+        api_key = os.environ.get('YOUTUBE_API_KEY')
+        
+        if not api_key:
+            return jsonify({"error": "YouTube API key not configured"}), 500
+        
+        comments = []
+        page_token = ""
+        
+        while len(comments) < 500:
+            url = f"https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId={video_id}&maxResults=100&pageToken={page_token}&key={api_key}"
+            
+            response = requests.get(url)
+            
+            if response.status_code != 200:
+                break
+                
+            data = response.json()
+            
+            if 'items' in data:
+                for item in data['items']:
+                    comment_text = item['snippet']['topLevelComment']['snippet']['textOriginal']
+                    timestamp = item['snippet']['topLevelComment']['snippet']['publishedAt']
+                    author_id = item['snippet']['topLevelComment']['snippet'].get('authorChannelId', {}).get('value', 'Unknown')
+                    comments.append({
+                        'text': comment_text,
+                        'timestamp': timestamp,
+                        'authorId': author_id
+                    })
+            
+            page_token = data.get('nextPageToken', '')
+            if not page_token:
+                break
+        
+        return jsonify({'comments': comments})
+        
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch comments: {str(e)}"}), 500
 
 @app.route('/predict', methods=['POST'])
 def predict():
